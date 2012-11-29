@@ -1,0 +1,87 @@
+﻿<Ui xmlns="http://www.blizzard.com/wow/ui" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Script file="BrabbelRP.lua" />
+  
+  <Frame name="IconMenu" inherits="UIDropDownMenuTemplate" hidden="true">
+		<Scripts>
+			<OnShow>
+				UIDropDownMenu_Initialize(this, IconButton_OnLoad, "MENU");
+			</OnShow>
+		</Scripts>
+	</Frame>
+  
+  <Frame name="BrabbelButtonFrame" hidden="false" toplevel="true" parent="UIParent" movable="true" enableMouse="true">
+    <Size>
+      <AbsDimension x="32" y="32" />
+    </Size>
+    <Anchors>
+      <Anchor point="TOPLEFT" relativeTo="Minimap" relativePoint="LEFT">
+        <Offset>
+          <AbsDimension x="-20" y="0" />
+        </Offset>
+      </Anchor>
+    </Anchors>
+    <Frames>
+      <Button name="BrabbelButton">
+        <Size>
+          <AbsDimension x="33" y="33" />
+        </Size>
+        <Anchors>
+          <Anchor point="TOPLEFT">
+            <Offset>
+              <AbsDimension x="0" y="0" />
+            </Offset>
+          </Anchor>
+        </Anchors>
+        <Layers>
+          <Layer level="OVERLAY">
+            <Texture name="$parentIcon" file="interface\friendsframe\friendsframescrollicon">
+              <Size>
+                <AbsDimension x="20" y="20" />
+              </Size>
+              <Anchors>
+                <Anchor point="CENTER">
+                  <Offset>
+                    <AbsDimension x="-2" y="1" />
+                  </Offset>
+                </Anchor>
+              </Anchors>
+            </Texture>
+          </Layer>
+          <Layer level="OVERLAY">
+            <Texture name="$parentBorder" file="Interface\Minimap\MiniMap-TrackingBorder">
+              <Size>
+                <AbsDimension x="52" y="52" />
+              </Size>
+              <Anchors>
+                <Anchor point="TOPLEFT" />
+              </Anchors>
+            </Texture>
+          </Layer>
+        </Layers>
+        <Scripts>
+			<OnDragStart>
+				HideDropDownMenu(1);
+				this:GetParent():StartMoving();
+			</OnDragStart>
+			<OnDragStop>
+				this:GetParent():StopMovingOrSizing();
+			</OnDragStop>
+			<OnMouseUp>
+				HideDropDownMenu(1);
+				if(arg1 == "LeftButton") then
+					BrabbelRP:ToggleWindowOpen();
+				elseif(this:GetParent():GetAlpha() == 1) then
+					IconMenu:Show();
+					ToggleDropDownMenu(1, nil, IconMenu, this, 0, 0);
+				end
+			</OnMouseUp>
+			<OnLoad>
+				this:SetMovable(true);
+				this:RegisterForDrag("LeftButton","RightButton");
+			</OnLoad>
+		</Scripts>
+        <HighlightTexture file="Interface\Minimap\UI-Minimap-ZoomButton-Highlight" alphaMode="ADD" />
+      </Button>
+    </Frames>
+  </Frame>
+</Ui>

@@ -1,0 +1,32 @@
+## Interface: 20200
+## Title: BrabbelRP
+## Author: Friederike Bulka, Björn Teichmann
+## Version: 1.3.1.0
+## Notes: Game Modding Seminar 2007 - Uni-Leipzig\nEin brabbelndes WoW-Addon...
+## OptionalDeps: Ace2,AceLibrary,AceOO-2.0,AceAddon-2.0,AceDB-2.0,AceConsole-2.0,AceEvent-2.0,AceLocale-2.2,Chronos
+## DefaultState: Enabled
+## LoadOnDemand: 0
+## SavedVariablesPerCharacter: BrabbelRPDBPC
+## URL: http://brabbelrp.derflash.de
+## X-Website: http://brabbelrp.derflash.de
+## X-Category: Chat/Communication
+
+libs\AceLibrary\AceLibrary.lua
+libs\AceOO-2.0\AceOO-2.0.lua
+libs\AceAddon-2.0\AceAddon-2.0.lua
+libs\AceDB-2.0\AceDB-2.0.lua
+libs\AceConsole-2.0\AceConsole-2.0.lua
+libs\AceEvent-2.0\AceEvent-2.0.lua
+libs\AceLocale-2.2\AceLocale-2.2.lua
+libs\Chronos\Chronos.xml
+
+BrabbelRP.xml
+BrabbelRPForm.xml
+
+lang\Locale-enUS.lua
+lang\Locale-deDE.lua
+##lang\Locale-zhCN.lua
+
+defaultBrabbel\Default-enUS.lua
+defaultBrabbel\Default-deDE.lua
+defaultBrabbel\Default-zhCN.lua

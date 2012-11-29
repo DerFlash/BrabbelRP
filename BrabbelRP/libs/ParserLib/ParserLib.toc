@@ -1,0 +1,17 @@
+﻿## Interface: 20003
+## LoadOnDemand: 1
+
+## Title: ParserLib
+## Notes: Combat log parsing library
+## Author: Rophy
+## Version: 1.1
+
+## X-Category: Library
+## X-eMail: rophy123@gmail.com
+## X-ReleaseDate: $Date: 2007-01-10 03:38:49 -0500 (Wed, 10 Jan 2007) $
+## X-Website: http://www.wowace.com/index.php/ParserLib
+## X-RelSite-WoWI: 5033
+## X-WoWIPortal: rophy
+## X-AceLibrary-ParserLib-1.1: true
+
+ParserLib-1.1\ParserLib.lua

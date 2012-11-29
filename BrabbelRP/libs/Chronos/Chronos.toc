@@ -1,0 +1,7 @@
+## Interface: 20100
+## Title: Chronos
+## Notes: Embeddable Time Keeping and Scheduling System
+## Notes-deDE: Sammlung nützlicher Funktionen zum Zeitmanagement, welche von einigen anderen AddOns verwendet werden.
+## Author: Alexander Brazie, Thott, AnduinLothar
+## X-Website: http://www.cosmosui.org
+Chronos.xml

@@ -1,0 +1,2006 @@
+<Ui xmlns="http://www.blizzard.com/wow/ui" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+	<Frame name="ModeMenu" inherits="UIDropDownMenuTemplate" hidden="true">
+		<Scripts>
+			<OnShow>
+				UIDropDownMenu_Initialize(this, ModeButton_OnLoad, "MENU");
+			</OnShow>
+		</Scripts>
+	</Frame>
+
+	<Button name="ActionText" virtual="true">
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="$parent_Text" inherits="GameTooltipHeaderText" text="Title">
+					<Color r="1.0" g="0.82" b="0"/>
+				</FontString>
+			</Layer>
+		</Layers>
+	</Button>
+	
+	<Button name="ActionText2" virtual="true">
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="$parent_Text" inherits="GameTooltipHeaderText" justifyH="LEFT" text="Title">
+					<Color r="1" g="1" b="1"/>
+				</FontString>
+			</Layer>
+		</Layers>
+	</Button>
+
+	<EditBox name="BRPEditBox1" inherits="InputBoxTemplate" hidden="false" virtual="true">
+		<Anchors>
+			<Anchor point="TOPLEFT" relativeTo="$parent" relativePoint="TOPLEFT" />
+			<Anchor point="BOTTOMRIGHT" relativeTo="$parent" relativePoint="BOTTOMRIGHT" />
+		</Anchors>
+		<Layers>
+			<Layer>
+				<Texture name="$parent_bkg">
+					<Color r="0" g="0" b="0" a="1" />
+					<Anchors>
+						<Anchor point="TOPLEFT" relativeTo="$parent" relativePoint="TOPLEFT">
+							<Offset>
+								<AbsDimension x="1" y="-2"/>
+							</Offset>
+						</Anchor>
+						<Anchor point="BOTTOMRIGHT" relativeTo="$parent" relativePoint="BOTTOMRIGHT">
+							<Offset>
+								<AbsDimension x="-1" y="2"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</Texture>
+			</Layer>
+		</Layers>
+		<Scripts>
+			<OnHide>
+			</OnHide>
+			<OnEnterPressed>
+				HideAllOpenEdits(false);
+			</OnEnterPressed>
+			<OnEscapePressed>
+				HideAllOpenEdits(true);
+			</OnEscapePressed>
+		</Scripts>
+	</EditBox>
+	
+	<Frame name="BRPTitleFrame" virtual="true">
+		<Size>
+			<AbsDimension x="150" y="25" />
+		</Size>
+		<Backdrop bgFile="Interface\CharacterFrame\UI-Party-Background" edgeFile="Interface\Tooltips\UI-Tooltip-Border" tile="true">
+			<BackgroundInsets>
+				<AbsInset left="4" right="4" top="4" bottom="4" />
+			</BackgroundInsets>
+			<TileSize>
+				<AbsValue val="16" />
+			</TileSize>
+			<EdgeSize>
+				<AbsValue val="16" />
+			</EdgeSize>
+		</Backdrop>
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="$parent_Text" inherits="GameFontNormal" text="Title">
+					<Anchors>
+						<Anchor point="CENTER" relativeTo="$parent">
+							<Offset>
+								<AbsDimension x="0" y="1"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+	</Frame>
+
+	<Button name="CatEntryTemplate" virtual="true">
+		<Size>
+			<AbsDimension x="615" y="16" />
+		</Size>
+		<NormalFont inherits="GameFontHighlight" justifyH="LEFT"/>
+		<Scripts>
+			<OnClick>
+				HideDropDownMenu(1);
+				BrabbelRP:UISelectCategory(self:GetText());
+				if (IsControlKeyDown()) then
+					BrabbelRP:SwitchToLinesView();
+				end
+			</OnClick>
+			<OnDoubleClick>
+				BrabbelRP:SwitchToLinesView();
+			</OnDoubleClick>
+		</Scripts>
+		<Layers>
+			<Layer>
+				<Texture name="$parent_selected" hidden="true">
+					<Color r="0.6" g="0.6" b="1.0" a="0.5" />
+				</Texture>
+			</Layer>
+		</Layers>
+		<Frames>
+			<EditBox name="$parent_EditBox" inherits="InputBoxTemplate" hidden="true">
+				<Size>
+					<AbsDimension x="190" y="25"/>
+				</Size>
+				<Anchors>
+					<Anchor point="LEFT">
+						<Offset>
+							<AbsDimension x="0" y="0"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer>
+						<Texture name="$parent_bkg">
+							<Color r="0" g="0" b="0" a="1" />
+							<Anchors>
+								<Anchor point="TOPLEFT">
+									<Offset>
+										<AbsDimension x="0" y="-7"/>
+									</Offset>
+								</Anchor>
+							</Anchors>
+							<Size>
+								<AbsDimension x="185" y="13"/>
+							</Size>
+						</Texture>
+					</Layer>
+				</Layers>
+				<Scripts>
+					<OnHide>
+					</OnHide>
+					<OnEnterPressed>
+						HideAllOpenEdits(false);
+					</OnEnterPressed>
+					<OnEscapePressed>
+						HideAllOpenEdits(true);
+					</OnEscapePressed>
+					<OnChar>
+						if (this:GetText():len() > 25) then this:SetText(this:GetText():sub(0,this:GetText():len()-1)) end
+					</OnChar>
+				</Scripts>
+			</EditBox>
+
+			<Button name="$parent_renameCat" text="...">
+				<Anchors>
+					<Anchor point="LEFT">
+						<Offset>
+							<AbsDimension x="185" y="0"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Size>
+					<AbsDimension x="20" y="16" />
+				</Size>
+				<ButtonText name="$parentText"/>
+				<NormalFont inherits="GameFontNormal"/>
+				<HighlightFont inherits="GameFontHighlight"/>
+				<DisabledFont inherits="GameFontDisable"/>
+				<Scripts>
+					<OnClick>
+						HideDropDownMenu(1);
+						BrabbelRP:UISelectCategory(this:GetParent():GetText());
+						BrabbelRP:TableDoubleClick(this:GetParent():GetName(),this:GetParent():GetText());
+					</OnClick>
+				</Scripts>
+			</Button>
+			
+			<Button name="$parent_active" inherits="RowTemplate_2">
+				<Anchors>
+					<Anchor point="RIGHT">
+						<Offset>
+							<AbsDimension x="-329" y="0"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Size>
+					<AbsDimension x="80" y="16" />
+				</Size>
+				<Scripts>
+					<OnClick>
+						HideDropDownMenu(1);
+						BrabbelRP:UISelectCategory(self:GetParent():GetText());
+						if (IsControlKeyDown()) then
+							BrabbelRP:TableDoubleClick(self:GetName(),nil);
+						end
+					</OnClick>
+					<OnDoubleClick>
+						BrabbelRP:TableDoubleClick(self:GetName(),nil);
+						BrabbelRP:showStatusTooltip();
+					</OnDoubleClick>
+					<OnEnter>
+						BrabbelRP:showStatusTooltip();
+					</OnEnter>
+					<OnLeave>
+						GameTooltip:Hide();
+					</OnLeave>
+				</Scripts>
+			</Button>
+			
+			<Button name="$parent_mode" inherits="RowTemplate_1" text="Standard">
+				<Anchors>
+					<Anchor point="LEFT" relativeTo="$parent_active" relativePoint="RIGHT" />
+				</Anchors>
+				<Size>
+					<AbsDimension x="191" y="16" />
+				</Size>
+				<Scripts>
+					<OnClick>
+						HideDropDownMenu(1);
+						BrabbelRP:UISelectCategory(self:GetParent():GetText());
+						if (IsControlKeyDown()) then
+							ModeMenu:Show();
+							ToggleDropDownMenu(1, this:GetParent():GetText(), ModeMenu, this, 0, 0);
+						end
+					</OnClick>
+					<OnDoubleClick>
+						BrabbelRP:UISelectCategory(this:GetParent():GetText());
+						ModeMenu:Show();
+						ToggleDropDownMenu(1, this:GetParent():GetText(), ModeMenu, this, 0, 0);
+					</OnDoubleClick>
+					<OnEnter>
+						GameTooltip_AddNewbieTip(TT_MODUS_HELP_TITLE, 1.0, 1.0, 1.0, TT_MODUS_HELP_TEXT, 1);
+					</OnEnter>
+					<OnLeave>
+						GameTooltip:Hide();
+					</OnLeave>
+				</Scripts>
+			</Button>
+			
+			<Button name="$parent_timer" inherits="RowTemplate_2">
+				<Anchors>
+					<Anchor point="LEFT" relativeTo="$parent_mode" relativePoint="RIGHT" />
+				</Anchors>
+				<Size>
+					<AbsDimension x="53" y="16" />
+				</Size>
+				<Scripts>
+					<OnClick>
+						HideDropDownMenu(1);
+						BrabbelRP:UISelectCategory(self:GetParent():GetText());
+						if (IsControlKeyDown() and this:GetScript("OnDoubleClick") ~= nil) then
+							BrabbelRP:TableDoubleClick(this:GetName(),nil)
+						end
+					</OnClick>
+					<OnEnter>
+						BrabbelRP:showTimerTooltip();
+					</OnEnter>
+					<OnLeave>
+						GameTooltip:Hide();
+					</OnLeave>
+				</Scripts>
+				<Frames>
+					<EditBox name="$parent_EditBox" inherits="BRPEditBox1" hidden="true">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="$parent" relativePoint="TOPLEFT" />
+							<Anchor point="BOTTOMRIGHT" relativeTo="$parent" relativePoint="BOTTOMRIGHT" />
+						</Anchors>
+						<Scripts>
+							<OnChar>
+								BRP_ValueChar(arg1);
+							</OnChar>
+							<OnTextChanged>
+								BRP_ValueChanged();
+							</OnTextChanged>
+						</Scripts>
+					</EditBox>
+				</Frames>
+			</Button>
+			
+			<Button name="$parent_chance" inherits="RowTemplate_1">
+				<Anchors>
+					<Anchor point="LEFT" relativeTo="$parent_timer" relativePoint="RIGHT" />
+				</Anchors>
+				<Size>
+					<AbsDimension x="41" y="16" />
+				</Size>
+				<Scripts>
+					<OnClick>
+						HideDropDownMenu(1);
+						BrabbelRP:UISelectCategory(self:GetParent():GetText());
+						if (IsControlKeyDown()) then
+							BrabbelRP:TableDoubleClick(self:GetName(),nil);
+						end
+					</OnClick>
+					<OnDoubleClick>
+						BrabbelRP:TableDoubleClick(self:GetName(),nil);
+					</OnDoubleClick>
+					<OnEnter>
+						GameTooltip_AddNewbieTip(TT_CHANCE_HELP_TITLE, 1.0, 1.0, 1.0, TT_CHANCE_HELP_TEXT, 1);
+					</OnEnter>
+					<OnLeave>
+						GameTooltip:Hide();
+					</OnLeave>
+				</Scripts>
+				<Frames>
+					<EditBox name="$parent_EditBox" inherits="BRPEditBox1" hidden="true">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="$parent" relativePoint="TOPLEFT" />
+							<Anchor point="BOTTOMRIGHT" relativeTo="$parent" relativePoint="BOTTOMRIGHT" />
+						</Anchors>
+						<Scripts>
+							<OnChar>
+								BRP_ValueChar(arg1);
+							</OnChar>
+							<OnTextChanged>
+								BRP_ValueChanged();
+							</OnTextChanged>
+						</Scripts>
+					</EditBox>
+				</Frames>
+			</Button>
+
+			<Button name="$parent_important" inherits="RowTemplate_2">
+				<Anchors>
+					<Anchor point="LEFT" relativeTo="$parent_chance" relativePoint="RIGHT" />
+				</Anchors>
+				<Size>
+					<AbsDimension x="23" y="16" />
+				</Size>
+				<Scripts>
+					<OnClick>
+						HideDropDownMenu(1);
+						BrabbelRP:UISelectCategory(self:GetParent():GetText());
+						if (IsControlKeyDown()) then
+							BrabbelRP:TableDoubleClick(self:GetName(),nil);
+						end
+					</OnClick>
+					<OnDoubleClick>
+						BrabbelRP:TableDoubleClick(self:GetName(),nil);
+					</OnDoubleClick>
+					<OnEnter>
+						GameTooltip_AddNewbieTip(TT_IMPORTANT_HELP_TITLE, 1.0, 1.0, 1.0, TT_IMPORTANT_HELP_TEXT, 1);
+					</OnEnter>
+					<OnLeave>
+						GameTooltip:Hide();
+					</OnLeave>
+				</Scripts>
+			</Button>
+			
+			<Button name="$parent_count" inherits="RowTemplate_1">
+				<Anchors>
+					<Anchor point="LEFT" relativeTo="$parent_important" relativePoint="RIGHT" />
+				</Anchors>
+				<Size>
+					<AbsDimension x="23" y="16" />
+				</Size>
+				<Scripts>
+					<OnClick>
+						HideDropDownMenu(1);
+						BrabbelRP:UISelectCategory(self:GetParent():GetText());
+					</OnClick>
+					<OnDoubleClick>
+						BrabbelRP:SwitchToLinesView();
+					</OnDoubleClick>
+					<OnEnter>
+						GameTooltip_AddNewbieTip(TT_COUNT_HELP_TITLE, 1.0, 1.0, 1.0, TT_COUNT_HELP_TEXT, 1);
+					</OnEnter>
+					<OnLeave>
+						GameTooltip:Hide();
+					</OnLeave>
+				</Scripts>
+			</Button>
+		</Frames>
+	</Button>
+	
+	<Button name="LinesEntryTemplate" virtual="true">
+		<Size>
+			<AbsDimension x="614" y="16" />
+		</Size>
+		<NormalFont inherits="GameFontHighlight" justifyH="LEFT"/>
+		<Scripts>
+			<OnClick>
+				BrabbelRP:UISelectLine();
+				if (IsControlKeyDown()) then
+					BrabbelRP:UIEditLine();
+				end
+			</OnClick>
+			<OnDoubleClick>
+				BrabbelRP:UIEditLine();
+			</OnDoubleClick>
+			<OnEnter>
+				GameTooltip_AddNewbieTip(TT_LINES_TABLE_HELP_TITLE, 1.0, 1.0, 1.0, TT_LINES_TABLE_HELP_TEXT, 1);
+			</OnEnter>
+			<OnLeave>
+				GameTooltip:Hide();
+			</OnLeave>
+		</Scripts>
+		<Layers>
+			<Layer>
+				<Texture name="$parent_selected" hidden="true">
+					<Color r="0.6" g="0.6" b="1.0" a="0.5" />
+				</Texture>
+			</Layer>
+		</Layers>
+	</Button>
+	
+	<Button name="RowTemplate_1" virtual="true">
+		<Layers>
+			<Layer level="BACKGROUND" hidden="true">
+				<FontString name="$parent_text" inherits="GameFontHighlight" text="" />
+			</Layer>
+			<Layer level="BACKGROUND">
+                <Texture name="$parentTexture">
+					<Color r="0" g="0.8" b="0.2" a="0.1" />
+                </Texture>
+			</Layer>
+		</Layers>
+	</Button>
+  
+	<Button name="RowTemplate_2" virtual="true">
+		<Layers>
+			<Layer level="ARTWORK">
+				<FontString name="$parent_text" inherits="GameFontHighlight" text="" />
+			</Layer>
+			<Layer level="BACKGROUND">
+                <Texture name="$parentTexture">
+					<Color r="0" g="0.2" b="0.6" a="0.15" />
+                </Texture>
+			</Layer>
+		</Layers>
+	</Button>
+	
+	<MessageFrame name="BrabbelRPErrorFrame" displayDuration="5" insertMode="TOP" parent="UIParent" frameStrata="HIGH" toplevel="true">
+		<Size>
+			<AbsDimension x="512" y="60"/>
+		</Size>
+		<Anchors>
+			<Anchor point="TOP">
+				<Offset>
+					<AbsDimension x="0" y="-10"/>
+				</Offset>
+			</Anchor>
+		</Anchors>
+		<FontString inherits="ErrorFont" justifyH="CENTER" />
+	</MessageFrame>
+
+	<Frame name="BrabbelRPForm" toplevel="false" frameStrata="DIALOG" movable="true" enableMouse="true" enableKeyboard="true" hidden="true" parent="UIParent">
+		<Size>
+			<AbsDimension x="750" y="530"/>
+		</Size>
+		<Anchors>
+			<Anchor point="CENTER"/>
+		</Anchors>
+		<Layers>
+			<Layer level="BACKGROUND">
+				<Texture file="Interface\HelpFrame\HelpFrame-TopLeft">
+					<Size>
+						<AbsDimension x="256" y="282"/>
+					</Size>
+					<Anchors>
+						<Anchor point="TOPLEFT"/>
+					</Anchors>
+				</Texture>
+				<Texture file="Interface\HelpFrame\HelpFrame-Top">
+					<Size>
+						<AbsDimension x="399" y="282"/>
+					</Size>
+					<Anchors>
+						<Anchor point="TOPLEFT">
+							<Offset>
+								<AbsDimension x="256" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</Texture>
+				<Texture file="Interface\HelpFrame\HelpFrame-TopRight">
+					<Size>
+						<AbsDimension x="128" y="282"/>
+					</Size>
+					<Anchors>
+						<Anchor point="TOPRIGHT">
+							<Offset>
+								<AbsDimension x="33" y="0"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</Texture>
+				<Texture file="Interface\HelpFrame\HelpFrame-BotLeft">
+					<Size>
+						<AbsDimension x="256" y="256"/>
+					</Size>
+					<Anchors>
+						<Anchor point="BOTTOMLEFT">
+							<Offset>
+								<AbsDimension x="0" y="-8"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</Texture>
+				<Texture file="Interface\HelpFrame\HelpFrame-Bottom">
+					<Size>
+						<AbsDimension x="399" y="256"/>
+					</Size>
+					<Anchors>
+						<Anchor point="BOTTOMLEFT">
+							<Offset>
+								<AbsDimension x="256" y="-8"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</Texture>
+				<Texture file="Interface\HelpFrame\HelpFrame-BotRight">
+					<Size>
+						<AbsDimension x="128" y="256"/>
+					</Size>
+					<Anchors>
+						<Anchor point="BOTTOMRIGHT">
+							<Offset>
+								<AbsDimension x="33" y="-8"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</Texture>
+			</Layer>
+			<Layer level="ARTWORK">
+				<Texture name="myFrameHeader" file="Interface\DialogFrame\UI-DialogBox-Header">
+					<Size>
+						<AbsDimension x="536" y="64"/>
+					</Size>
+					<Anchors>
+						<Anchor point="TOP">
+							<Offset>
+								<AbsDimension x="-12" y="12"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</Texture>
+				<FontString name="BrabbelRPGUITitel" inherits="GameFontNormal" text="BrabbelRP">
+					<Anchors>
+						<Anchor point="TOP" relativeTo="myFrameHeader">
+							<Offset>
+								<AbsDimension x="0" y="-14"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+				</FontString>
+			</Layer>
+		</Layers>
+		<Frames>
+			
+			<Button name="$parent_ButtonClose" inherits="UIPanelCloseButton">
+				<Size>
+					<AbsDimension x="25" y="25" />
+				</Size>
+				<Anchors>
+					<Anchor point="TOPRIGHT">
+						<Offset>
+							<AbsDimension x="-13" y="-9" />
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>Try2Hide();</OnClick>
+				</Scripts>
+			</Button>
+			
+			<Frame name="myTabPage1" hidden="false">
+				<Anchors>
+					<Anchor point="TOPLEFT"/>
+					<Anchor point="BOTTOMRIGHT"/>
+				</Anchors>
+				<Frames>
+				
+					<Frame name="CatLineSelection">
+						<Size>
+							<AbsDimension x="750" y="30"/>
+						</Size>
+						<Anchors>
+							<Anchor point="TOPLEFT">
+								<Offset>
+									<AbsDimension x="35" y="-22"/>
+								</Offset>
+							</Anchor>
+						</Anchors>
+						<Frames>
+							<Button name="$parent_Cats" inherits="ActionText">
+								<Anchors>
+									<Anchor point="LEFT" relativeTo="CatLineSelection" relativePoint="LEFT"/>
+								</Anchors>
+								<Size>
+									<AbsDimension x="80" y="30" />
+								</Size>								
+								<Scripts>
+									<OnLoad>
+										--getglobal(this:GetName().."_Text"):SetText("Categories");
+									</OnLoad>
+									<OnClick>
+										ResetGui();
+									</OnClick>
+								</Scripts>
+							</Button>
+							<Frame name="$parent_More">
+								<Anchors>
+									<Anchor point="LEFT" relativeTo="$parent_Cats" relativePoint="RIGHT"/>
+								</Anchors>
+								<Size>
+									<AbsDimension x="15" y="30" />
+								</Size>	
+								<Layers>
+									<Layer level="ARTWORK">
+										<FontString name="$parent_Text" inherits="GameFontWhite" justifyH="LEFT" text=" > " />
+									</Layer>
+								</Layers>
+							</Frame>
+							<Button name="$parent_Cat" inherits="ActionText2">
+								<Anchors>
+									<Anchor point="LEFT" relativeTo="$parent_More" relativePoint="RIGHT"/>
+								</Anchors>
+								<Size>
+									<AbsDimension x="300" y="30" />
+								</Size>								
+								<Scripts>
+									<OnLoad>
+										--getglobal(this:GetName().."_Text"):SetText("Select a category");
+									</OnLoad>
+									<OnClick>
+										BrabbelRP:SwitchToLinesView();
+									</OnClick>
+								</Scripts>
+							</Button>
+						</Frames>
+					</Frame>
+
+					<Frame name="CatsScrollFrame">
+						<Size>
+							<AbsDimension x="670" y="280"/>
+						</Size>
+						<Anchors>
+							<Anchor point="TOP">
+								<Offset>
+									<AbsDimension x="0" y="-80"/>
+								</Offset>
+							</Anchor>
+						</Anchors>
+						<Scripts>
+							<OnLoad>
+								BrabbelRPScrollBar:Show()
+							</OnLoad>
+						</Scripts>
+						<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\Tooltips\UI-Tooltip-Border" tile="true">
+							<BackgroundInsets>
+								<AbsInset left="4" right="4" top="4" bottom="4" />
+							</BackgroundInsets>
+							<TileSize>
+								<AbsValue val="16" />
+							</TileSize>
+							<EdgeSize>
+								<AbsValue val="16" />
+							</EdgeSize>
+						</Backdrop>
+						<Frames>
+
+							<Frame name="$parent_Title" inherits="BRPTitleFrame">
+								<Anchors>
+									<Anchor point="TOPLEFT">
+										<Offset>
+											<AbsDimension x="10" y="8"/>
+										</Offset>
+									</Anchor>
+								</Anchors>
+								<Size>
+									<AbsDimension x="100" y="25" />
+								</Size>
+								<Scripts>
+									<OnLoad>
+										--getglobal(this:GetName().."_Text"):SetText("Categories");
+									</OnLoad>
+								</Scripts>
+							</Frame>
+						
+							<Frame name="$parent_Status" inherits="BRPTitleFrame">
+								<Anchors>
+									<Anchor point="TOPLEFT">
+										<Offset>
+											<AbsDimension x="227" y="8"/>
+										</Offset>
+									</Anchor>
+								</Anchors>
+								<Size>
+									<AbsDimension x="88" y="25" />
+								</Size>
+								<Scripts>
+									<OnLoad>
+										--getglobal(this:GetName().."_Text"):SetText("Status");
+									</OnLoad>
+									<OnEnter>
+										GameTooltip_AddNewbieTip(TT_ACTIVE_HELP_TITLE, 1.0, 1.0, 1.0, TT_ACTIVE_HELP_TEXT_SHORT, 1);
+									</OnEnter>
+									<OnLeave>
+										GameTooltip:Hide();
+									</OnLeave>
+								</Scripts>
+							</Frame>
+							
+							<Frame name="$parent_Mode" inherits="BRPTitleFrame">
+								<Anchors>
+									<Anchor point="TOPLEFT">
+										<Offset>
+											<AbsDimension x="308" y="8"/>
+										</Offset>
+									</Anchor>
+								</Anchors>
+								<Size>
+									<AbsDimension x="198" y="25" />
+								</Size>
+								<Scripts>
+									<OnLoad>
+										--getglobal(this:GetName().."_Text"):SetText("Status");
+									</OnLoad>
+									<OnEnter>
+										GameTooltip_AddNewbieTip(TT_MODUS_HELP_TITLE, 1.0, 1.0, 1.0, TT_MODUS_HELP_TEXT, 1);
+									</OnEnter>
+									<OnLeave>
+										GameTooltip:Hide();
+									</OnLeave>
+								</Scripts>
+							</Frame>
+							
+							<Frame name="$parent_TimerTitle" inherits="BRPTitleFrame">
+								<Anchors>
+									<Anchor point="TOPLEFT">
+										<Offset>
+											<AbsDimension x="498" y="8"/>
+										</Offset>
+									</Anchor>
+								</Anchors>
+								<Size>
+									<AbsDimension x="60" y="25" />
+								</Size>
+								<Scripts>
+									<OnLoad>
+										--getglobal(this:GetName().."_Text"):SetText("Timer in sec");
+									</OnLoad>
+									<OnEnter>
+										GameTooltip_AddNewbieTip(TT_TIMER_HELP_TITLE, 1.0, 1.0, 1.0, TT_TIMER_HELP_TEXT, 1);
+									</OnEnter>
+									<OnLeave>
+										GameTooltip:Hide();
+									</OnLeave>
+								</Scripts>
+							</Frame>
+							
+							<Frame name="$parent_ChanceTitle" inherits="BRPTitleFrame">
+								<Anchors>
+									<Anchor point="TOPLEFT">
+										<Offset>
+											<AbsDimension x="550" y="8"/>
+										</Offset>
+									</Anchor>
+								</Anchors>
+								<Size>
+									<AbsDimension x="50" y="25" />
+								</Size>
+								<Scripts>
+									<OnEnter>
+										GameTooltip_AddNewbieTip(TT_CHANCE_HELP_TITLE, 1.0, 1.0, 1.0, TT_CHANCE_HELP_TEXT, 1);
+									</OnEnter>
+									<OnLeave>
+										GameTooltip:Hide();
+									</OnLeave>
+									<OnLoad>
+										--getglobal(this:GetName().."_Text"):SetText("Chance in %");
+									</OnLoad>
+								</Scripts>
+							</Frame>
+							
+							<Frame name="$parent_Important" inherits="BRPTitleFrame">
+								<Anchors>
+									<Anchor point="TOPLEFT">
+										<Offset>
+											<AbsDimension x="592" y="8"/>
+										</Offset>
+									</Anchor>
+								</Anchors>
+								<Size>
+									<AbsDimension x="30" y="25" />
+								</Size>
+								<Scripts>
+									<OnEnter>
+										GameTooltip_AddNewbieTip(TT_IMPORTANT_HELP_TITLE, 1.0, 1.0, 1.0, TT_IMPORTANT_HELP_TEXT, 1);
+									</OnEnter>
+									<OnLeave>
+										GameTooltip:Hide();
+									</OnLeave>
+									<OnLoad>
+										getglobal(this:GetName().."_Text"):SetText("!");
+									</OnLoad>
+								</Scripts>
+							</Frame>
+							
+							<Frame name="$parent_ChanceLines" inherits="BRPTitleFrame">
+								<Anchors>
+									<Anchor point="TOPLEFT">
+										<Offset>
+											<AbsDimension x="615" y="8"/>
+										</Offset>
+									</Anchor>
+								</Anchors>
+								<Size>
+									<AbsDimension x="30" y="25" />
+								</Size>
+								<Scripts>
+									<OnEnter>
+										GameTooltip_AddNewbieTip(TT_COUNT_HELP_TITLE, 1.0, 1.0, 1.0, TT_COUNT_HELP_TEXT, 1);
+									</OnEnter>
+									<OnLeave>
+										GameTooltip:Hide();
+									</OnLeave>
+									<OnLoad>
+										getglobal(this:GetName().."_Text"):SetText("#");
+									</OnLoad>
+								</Scripts>
+							</Frame>
+
+							
+							<ScrollFrame name="BrabbelRPScrollBar" inherits="FauxScrollFrameTemplate" hidden="true">
+								<Anchors>
+									<Anchor point="TOPLEFT">
+										<Offset>
+											<AbsDimension x="0" y="-8"/>
+										</Offset>
+									</Anchor>
+									<Anchor point="BOTTOMRIGHT">
+										<Offset>
+											<AbsDimension x="-30" y="8"/>
+										</Offset>
+									</Anchor>
+								</Anchors>
+								<Scripts>
+									<OnVerticalScroll>
+										FauxScrollFrame_OnVerticalScroll(16, BrabbelRPScrollBar_Update);
+									</OnVerticalScroll>
+									<OnShow>
+										BrabbelRPScrollBar_Update();
+									</OnShow>
+								</Scripts>
+							</ScrollFrame>
+
+							
+							<Button name="CategoryEntry1" inherits="CatEntryTemplate">
+								<Anchors>
+									<Anchor point="TOPLEFT" relativeTo="BrabbelRPScrollBar" relativePoint="TOPLEFT">
+										<Offset>
+											<AbsDimension x="24" y="-8"/>
+										</Offset>
+									</Anchor>
+								</Anchors>
+							</Button>
+
+							<Button name="CategoryEntry2" inherits="CatEntryTemplate">
+								<Anchors>
+									<Anchor point="TOPLEFT" relativeTo="CategoryEntry1" relativePoint="BOTTOMLEFT"/>
+								</Anchors>
+							</Button>
+
+							<Button name="CategoryEntry3" inherits="CatEntryTemplate">
+								<Anchors>
+									<Anchor point="TOPLEFT" relativeTo="CategoryEntry2" relativePoint="BOTTOMLEFT"/>
+								</Anchors>
+							</Button>
+							
+							<Button name="CategoryEntry4" inherits="CatEntryTemplate">
+								<Anchors>
+									<Anchor point="TOPLEFT" relativeTo="CategoryEntry3" relativePoint="BOTTOMLEFT"/>
+								</Anchors>
+							</Button>
+							
+							<Button name="CategoryEntry5" inherits="CatEntryTemplate">
+								<Anchors>
+									<Anchor point="TOPLEFT" relativeTo="CategoryEntry4" relativePoint="BOTTOMLEFT"/>
+								</Anchors>
+							</Button>
+							
+							<Button name="CategoryEntry6" inherits="CatEntryTemplate">
+								<Anchors>
+									<Anchor point="TOPLEFT" relativeTo="CategoryEntry5" relativePoint="BOTTOMLEFT"/>
+								</Anchors>
+							</Button>
+							
+							<Button name="CategoryEntry7" inherits="CatEntryTemplate">
+								<Anchors>
+									<Anchor point="TOPLEFT" relativeTo="CategoryEntry6" relativePoint="BOTTOMLEFT"/>
+								</Anchors>
+							</Button>
+							
+							<Button name="CategoryEntry8" inherits="CatEntryTemplate">
+								<Anchors>
+									<Anchor point="TOPLEFT" relativeTo="CategoryEntry7" relativePoint="BOTTOMLEFT"/>
+								</Anchors>
+							</Button>
+							
+							<Button name="CategoryEntry9" inherits="CatEntryTemplate">
+								<Anchors>
+									<Anchor point="TOPLEFT" relativeTo="CategoryEntry8" relativePoint="BOTTOMLEFT"/>
+								</Anchors>
+							</Button>
+							
+							<Button name="CategoryEntry10" inherits="CatEntryTemplate">
+								<Anchors>
+									<Anchor point="TOPLEFT" relativeTo="CategoryEntry9" relativePoint="BOTTOMLEFT"/>
+								</Anchors>
+							</Button>
+							
+							<Button name="CategoryEntry11" inherits="CatEntryTemplate">
+								<Anchors>
+									<Anchor point="TOPLEFT" relativeTo="CategoryEntry10" relativePoint="BOTTOMLEFT"/>
+								</Anchors>
+							</Button>
+							
+							<Button name="CategoryEntry12" inherits="CatEntryTemplate">
+								<Anchors>
+									<Anchor point="TOPLEFT" relativeTo="CategoryEntry11" relativePoint="BOTTOMLEFT"/>
+								</Anchors>
+							</Button>
+							
+							<Button name="CategoryEntry13" inherits="CatEntryTemplate">
+								<Anchors>
+									<Anchor point="TOPLEFT" relativeTo="CategoryEntry12" relativePoint="BOTTOMLEFT"/>
+								</Anchors>
+							</Button>
+							
+							<Button name="CategoryEntry14" inherits="CatEntryTemplate">
+								<Anchors>
+									<Anchor point="TOPLEFT" relativeTo="CategoryEntry13" relativePoint="BOTTOMLEFT"/>
+								</Anchors>
+							</Button>
+							
+							<Button name="CategoryEntry15" inherits="CatEntryTemplate">
+								<Anchors>
+									<Anchor point="TOPLEFT" relativeTo="CategoryEntry14" relativePoint="BOTTOMLEFT"/>
+								</Anchors>
+							</Button>
+							
+							<Button name="CategoryEntry16" inherits="CatEntryTemplate">
+								<Anchors>
+									<Anchor point="TOPLEFT" relativeTo="CategoryEntry15" relativePoint="BOTTOMLEFT"/>
+								</Anchors>
+							</Button>
+
+						</Frames>
+					</Frame>
+
+					<Frame name="CatActionButtons">
+						<Size>
+							<AbsDimension x="650" y="30"/>
+						</Size>
+						<Anchors>
+							<Anchor point="TOP" relativeTo="CatsScrollFrame" relativePoint="BOTTOM">
+								<Offset>
+									<AbsDimension x="0" y="10"/>
+								</Offset>
+							</Anchor>
+						</Anchors>
+						<Frames>
+							<Button name="AddCat" inherits="ActionText">
+								<Anchors>
+									<Anchor point="LEFT" relativeTo="CatActionButtons" relativePoint="LEFT"/>
+								</Anchors>
+								<Size>
+									<AbsDimension x="280" y="30" />
+								</Size>
+								<Scripts>
+									<OnLoad>
+										--getglobal(this:GetName().."_Text"):SetText("Add new category");
+									</OnLoad>
+									<OnClick>
+										AddNewCat();
+									</OnClick>
+								</Scripts>
+							</Button>
+							<EditBox name="AddCat_EditBox" inherits="InputBoxTemplate" hidden="true">
+								<Size>
+									<AbsDimension x="150" y="25"/>
+								</Size>
+								<Anchors>
+									<Anchor point="CENTER" relativeTo="AddCat" relativePoint="CENTER">
+										<Offset>
+											<AbsDimension x="0" y="0"/>
+										</Offset>
+									</Anchor>
+								</Anchors>
+								<Scripts>
+									<OnEnterPressed>
+										HideAllOpenEdits(false);
+									</OnEnterPressed>
+									<OnEscapePressed>
+										HideAllOpenEdits(true);
+									</OnEscapePressed>
+								</Scripts>
+							</EditBox>
+							<Button name="DeleteCat" inherits="ActionText">
+								<Anchors>
+									<Anchor point="CENTER" relativeTo="CatActionButtons" relativePoint="CENTER">
+										<Offset>
+											<AbsDimension x="40" y="0"/>
+										</Offset>
+									</Anchor>
+								</Anchors>
+								<Size>
+									<AbsDimension x="250" y="30" />
+								</Size>
+								<Scripts>
+									<OnLoad>
+										--getglobal(this:GetName().."_Text"):SetText("Test");
+									</OnLoad>
+									<OnClick>
+										Try2DeleteCat(1);
+										if (IsControlKeyDown()) then
+											Try2DeleteCat(2);
+										end
+									</OnClick>
+									<OnDoubleClick>
+										Try2DeleteCat(2);
+									</OnDoubleClick>
+									<OnLeave>
+										Try2DeleteCat(0);
+									</OnLeave>
+								</Scripts>
+							</Button>							
+							<Button name="DeActivateAll" inherits="ActionText">
+								<Anchors>
+									<Anchor point="RIGHT" relativeTo="CatActionButtons" relativePoint="RIGHT"/>
+								</Anchors>
+								<Size>
+									<AbsDimension x="130" y="30" />
+								</Size>
+								<Scripts>
+									<OnClick>
+										DeActivateAll(getglobal(this:GetName().."_Text"):GetText());
+									</OnClick>
+								</Scripts>
+							</Button>
+						</Frames>
+					</Frame>
+					
+					<Frame name="LinesScrollFrame" hidden="true">
+						<Size>
+							<AbsDimension x="670" y="280"/>
+						</Size>
+						<Anchors>
+							<Anchor point="TOP">
+								<Offset>
+									<AbsDimension x="0" y="-80"/>
+								</Offset>
+							</Anchor>
+						</Anchors>
+						<Layers>
+							<Layer level="ARTWORK">
+								<FontString name="no_lines_in_this_cat" inherits="GameFontNormalHuge" text="Select a category first ..." outline="THICK" justifyV="MIDDLE" justifyH="CENTER" />
+							</Layer>
+						</Layers>
+						<Scripts>
+							<OnLoad>
+								BrabbelRPScrollLines:Show()
+							</OnLoad>
+							<OnEnter>
+								GameTooltip_AddNewbieTip(TT_LINES_TABLE_HELP_TITLE, 1.0, 1.0, 1.0, TT_LINES_TABLE_HELP_TEXT, 1);
+							</OnEnter>
+							<OnLeave>
+								GameTooltip:Hide();
+							</OnLeave>
+						</Scripts>
+						<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\Tooltips\UI-Tooltip-Border" tile="true">
+							<BackgroundInsets>
+								<AbsInset left="4" right="4" top="4" bottom="4" />
+							</BackgroundInsets>
+							<TileSize>
+								<AbsValue val="16" />
+							</TileSize>
+							<EdgeSize>
+								<AbsValue val="16" />
+							</EdgeSize>
+						</Backdrop>
+						<Frames>
+
+							<Frame name="$parent_Title" inherits="BRPTitleFrame">
+								<Anchors>
+									<Anchor point="TOPLEFT">
+										<Offset>
+											<AbsDimension x="10" y="8"/>
+										</Offset>
+									</Anchor>
+								</Anchors>
+								<Size>
+									<AbsDimension x="150" y="25" />
+								</Size>
+								<Scripts>
+									<OnLoad>
+										--getglobal(this:GetName().."_Text"):SetText("Quotes");
+									</OnLoad>
+								</Scripts>
+							</Frame>
+						
+
+							<ScrollFrame name="BrabbelRPScrollLines" inherits="FauxScrollFrameTemplate" hidden="true">
+								<Anchors>
+									<Anchor point="TOPLEFT">
+										<Offset>
+											<AbsDimension x="0" y="-8"/>
+										</Offset>
+									</Anchor>
+									<Anchor point="BOTTOMRIGHT">
+										<Offset>
+											<AbsDimension x="-30" y="8"/>
+										</Offset>
+									</Anchor>
+								</Anchors>
+								<Scripts>
+									<OnVerticalScroll>
+										FauxScrollFrame_OnVerticalScroll(16, BrabbelRPScrollLines_Update);
+									</OnVerticalScroll>
+									<OnShow>
+										BrabbelRPScrollLines_Update();
+									</OnShow>
+								</Scripts>
+							</ScrollFrame>
+							
+							<Button name="LinesEntry1" inherits="LinesEntryTemplate">
+								<Anchors>
+									<Anchor point="TOPLEFT" relativeTo="BrabbelRPScrollLines" relativePoint="TOPLEFT">
+										<Offset>
+											<AbsDimension x="24" y="-8"/>
+										</Offset>
+									</Anchor>
+								</Anchors>
+							</Button>
+
+							<Button name="LinesEntry2" inherits="LinesEntryTemplate">
+								<Anchors>
+									<Anchor point="TOPLEFT" relativeTo="LinesEntry1" relativePoint="BOTTOMLEFT"/>
+								</Anchors>
+							</Button>
+
+							<Button name="LinesEntry3" inherits="LinesEntryTemplate">
+								<Anchors>
+									<Anchor point="TOPLEFT" relativeTo="LinesEntry2" relativePoint="BOTTOMLEFT"/>
+								</Anchors>
+							</Button>
+							
+							<Button name="LinesEntry4" inherits="LinesEntryTemplate">
+								<Anchors>
+									<Anchor point="TOPLEFT" relativeTo="LinesEntry3" relativePoint="BOTTOMLEFT"/>
+								</Anchors>
+							</Button>
+							
+							<Button name="LinesEntry5" inherits="LinesEntryTemplate">
+								<Anchors>
+									<Anchor point="TOPLEFT" relativeTo="LinesEntry4" relativePoint="BOTTOMLEFT"/>
+								</Anchors>
+							</Button>
+							
+							<Button name="LinesEntry6" inherits="LinesEntryTemplate">
+								<Anchors>
+									<Anchor point="TOPLEFT" relativeTo="LinesEntry5" relativePoint="BOTTOMLEFT"/>
+								</Anchors>
+							</Button>
+							
+							<Button name="LinesEntry7" inherits="LinesEntryTemplate">
+								<Anchors>
+									<Anchor point="TOPLEFT" relativeTo="LinesEntry6" relativePoint="BOTTOMLEFT"/>
+								</Anchors>
+							</Button>
+							
+							<Button name="LinesEntry8" inherits="LinesEntryTemplate">
+								<Anchors>
+									<Anchor point="TOPLEFT" relativeTo="LinesEntry7" relativePoint="BOTTOMLEFT"/>
+								</Anchors>
+							</Button>
+							
+							<Button name="LinesEntry9" inherits="LinesEntryTemplate">
+								<Anchors>
+									<Anchor point="TOPLEFT" relativeTo="LinesEntry8" relativePoint="BOTTOMLEFT"/>
+								</Anchors>
+							</Button>
+							
+							<Button name="LinesEntry10" inherits="LinesEntryTemplate">
+								<Anchors>
+									<Anchor point="TOPLEFT" relativeTo="LinesEntry9" relativePoint="BOTTOMLEFT"/>
+								</Anchors>
+							</Button>
+							
+							<Button name="LinesEntry11" inherits="LinesEntryTemplate">
+								<Anchors>
+									<Anchor point="TOPLEFT" relativeTo="LinesEntry10" relativePoint="BOTTOMLEFT"/>
+								</Anchors>
+							</Button>
+							
+							<Button name="LinesEntry12" inherits="LinesEntryTemplate">
+								<Anchors>
+									<Anchor point="TOPLEFT" relativeTo="LinesEntry11" relativePoint="BOTTOMLEFT"/>
+								</Anchors>
+							</Button>
+							
+							<Button name="LinesEntry13" inherits="LinesEntryTemplate">
+								<Anchors>
+									<Anchor point="TOPLEFT" relativeTo="LinesEntry12" relativePoint="BOTTOMLEFT"/>
+								</Anchors>
+							</Button>
+							
+							<Button name="LinesEntry14" inherits="LinesEntryTemplate">
+								<Anchors>
+									<Anchor point="TOPLEFT" relativeTo="LinesEntry13" relativePoint="BOTTOMLEFT"/>
+								</Anchors>
+							</Button>
+							
+							<Button name="LinesEntry15" inherits="LinesEntryTemplate">
+								<Anchors>
+									<Anchor point="TOPLEFT" relativeTo="LinesEntry14" relativePoint="BOTTOMLEFT"/>
+								</Anchors>
+							</Button>
+							
+							<Button name="LinesEntry16" inherits="LinesEntryTemplate">
+								<Anchors>
+									<Anchor point="TOPLEFT" relativeTo="LinesEntry15" relativePoint="BOTTOMLEFT"/>
+								</Anchors>
+							</Button>
+							
+							
+
+
+						</Frames>
+					</Frame>
+
+					<Frame name="LinesActionButtons" hidden="true">
+						<Size>
+							<AbsDimension x="650" y="30"/>
+						</Size>
+						<Anchors>
+							<Anchor point="TOP" relativeTo="LinesScrollFrame" relativePoint="BOTTOM">
+								<Offset>
+									<AbsDimension x="0" y="10"/>
+								</Offset>
+							</Anchor>
+						</Anchors>
+						<Frames>
+							<Button name="AddLine" inherits="ActionText">
+								<Anchors>
+									<Anchor point="RIGHT" relativeTo="LinesActionButtons" relativePoint="CENTER"/>
+								</Anchors>
+								<Size>
+									<AbsDimension x="280" y="30" />
+								</Size>
+								<Scripts>
+									<OnLoad>
+										--getglobal(this:GetName().."_Text"):SetText("Add new quote");
+									</OnLoad>
+									<OnClick>
+										AddNewQuote();
+									</OnClick>
+								</Scripts>
+							</Button>
+							<EditBox name="AddLine_EditBox" inherits="InputBoxTemplate" hidden="true">
+								<Size>
+									<AbsDimension x="150" y="25"/>
+								</Size>
+								<Anchors>
+									<Anchor point="CENTER" relativeTo="AddLine" relativePoint="CENTER">
+										<Offset>
+											<AbsDimension x="0" y="0"/>
+										</Offset>
+									</Anchor>
+								</Anchors>
+								<Scripts>
+									<OnEnterPressed>
+										HideAllOpenEdits(false);
+									</OnEnterPressed>
+									<OnEscapePressed>
+										HideAllOpenEdits(true);
+									</OnEscapePressed>
+								</Scripts>
+							</EditBox>
+							<Button name="DeleteLine" inherits="ActionText">
+								<Anchors>
+									<Anchor point="LEFT" relativeTo="LinesActionButtons" relativePoint="CENTER"/>
+								</Anchors>
+								<Size>
+									<AbsDimension x="250" y="30" />
+								</Size>
+								<Scripts>
+									<OnLoad>
+										--getglobal(this:GetName().."_Text"):SetText("Delete selected quote");
+									</OnLoad>
+									<OnClick>
+										Try2DeleteLine(1);
+										if (IsControlKeyDown()) then
+											Try2DeleteLine(2);
+										end
+									</OnClick>
+									<OnDoubleClick>
+										Try2DeleteLine(2);
+									</OnDoubleClick>
+									<OnLeave>
+										Try2DeleteLine(0);
+									</OnLeave>
+								</Scripts>
+							</Button>
+						</Frames>
+					</Frame>
+
+					<Frame name="QuoteFrame" hidden="true">
+						<Size>
+							<AbsDimension x="670" y="75"/>
+						</Size>
+						<Anchors>
+							<Anchor point="TOP">
+								<Offset>
+									<AbsDimension x="0" y="-390"/>
+								</Offset>
+							</Anchor>
+						</Anchors>
+						<Layers>
+							<Layer level="ARTWORK">
+								<FontString name="choose_quote_First" inherits="GameFontNormalHuge" text="Select a quote first ..." outline="THICK" justifyV="MIDDLE" justifyH="CENTER" hidden="false" />
+							</Layer>
+						</Layers>
+						<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\Tooltips\UI-Tooltip-Border" tile="true">
+							<BackgroundInsets>
+								<AbsInset left="4" right="4" top="4" bottom="4" />
+							</BackgroundInsets>
+							<TileSize>
+								<AbsValue val="16" />
+							</TileSize>
+							<EdgeSize>
+								<AbsValue val="16" />
+							</EdgeSize>
+						</Backdrop>
+						<Frames>
+
+							<ScrollFrame name="$parent_ScrollFrame" inherits="UIPanelScrollFrameTemplate">
+								<Anchors>
+									<Anchor point="TOPLEFT">
+										<Offset>
+											<AbsDimension x="15" y="-17"/>
+										</Offset>
+									</Anchor>
+									<Anchor point="BOTTOMRIGHT">
+										<Offset>
+											<AbsDimension x="-30" y="8"/>
+										</Offset>
+									</Anchor>
+								</Anchors>
+								<Scripts>
+									<OnMouseUp>
+										BrabbelRP:UIEditLine();
+									</OnMouseUp>
+								</Scripts>
+								<ScrollChild>
+									<Frame name="$parent_ChildFrame">
+										<Size>
+											<AbsDimension x="623" y="1"/>
+										</Size>
+										<Layers>
+											<Layer level="ARTWORK">
+												<FontString name="$parent_TextFrame" inherits="ChatFontNormal" justifyH="LEFT" justifyV="TOP" hidden="false" nonspacewrap="true" maxlines="6">
+													<Anchors>
+														<Anchor point="TOPLEFT" />
+													</Anchors>
+													<Size>
+														<AbsDimension x="610" y="80" />
+													</Size>
+												</FontString>
+											</Layer>
+										</Layers>
+										<Frames>
+											<EditBox name="$parent_EditBox" multiLine="true" enableMouse="true" autoFocus="true" hidden="true">
+												<Anchors>
+													<Anchor point="TOPLEFT">
+														<Offset>
+															<AbsDimension x="0" y="0"/>
+														</Offset>
+													</Anchor>
+													<Anchor point="BOTTOMRIGHT" />
+												</Anchors>
+												<Scripts>													
+													<OnTextChanged>
+														ScrollingEdit_OnTextChanged(this:GetParent():GetParent());
+													</OnTextChanged>
+													<OnCursorChanged>
+														ScrollingEdit_OnCursorChanged(arg1, arg2, arg3, arg4);
+													</OnCursorChanged>
+													<OnUpdate>
+														ScrollingEdit_OnUpdate(this:GetParent():GetParent());
+														GameTooltip:Hide();
+													</OnUpdate>
+													<OnTabPressed>
+														HideAllOpenEdits(false);
+													</OnTabPressed>
+													<OnEscapePressed>
+														resetEditBox();
+														HideAllOpenEdits(true);
+													</OnEscapePressed>
+													<OnEditFocusLost>
+														SaveQuote();
+													</OnEditFocusLost>
+													<OnEditFocusGained>
+														GameTooltip:Hide();
+													</OnEditFocusGained>
+												</Scripts>
+												<FontString inherits="ChatFontNormal"/>
+											</EditBox>
+											
+										</Frames>
+									</Frame>
+								</ScrollChild>
+								<Scripts>
+									<OnEnter>
+										GameTooltip_AddNewbieTip(TT_LINES_HELP_TITLE, 1.0, 1.0, 1.0, TT_LINES_HELP_TEXT, 1);
+									</OnEnter>
+									<OnLeave>
+										GameTooltip:Hide();
+									</OnLeave>
+								</Scripts>
+							</ScrollFrame>
+							
+						</Frames>
+						<Scripts>
+							<OnEnter>
+								GameTooltip_AddNewbieTip(TT_LINES_HELP_TITLE, 1.0, 1.0, 1.0, TT_LINES_HELP_TEXT, 1);
+							</OnEnter>
+							<OnLeave>
+								GameTooltip:Hide();
+							</OnLeave>
+						</Scripts>
+					</Frame>
+
+					<Frame name="QuoteActionButtons" hidden="true">
+						<Size>
+							<AbsDimension x="650" y="30"/>
+						</Size>
+						<Anchors>
+							<Anchor point="TOP" relativeTo="QuoteFrame" relativePoint="BOTTOM">
+								<Offset>
+									<AbsDimension x="0" y="10"/>
+								</Offset>
+							</Anchor>
+						</Anchors>
+						<Frames>
+							<Button name="SaveQuote" inherits="ActionText">
+								<Anchors>
+									<Anchor point="RIGHT" relativeTo="QuoteActionButtons" relativePoint="CENTER"/>
+								</Anchors>
+								<Size>
+									<AbsDimension x="280" y="30" />
+								</Size>
+								<Scripts>
+									<OnLoad>
+										--getglobal(this:GetName().."_Text"):SetText("Save quote");
+									</OnLoad>
+									<OnClick>
+										HideAllOpenEdits(false);
+									</OnClick>
+								</Scripts>
+							</Button>
+						</Frames>
+					</Frame>
+				
+				</Frames> 
+			</Frame>
+
+			<Frame name="General_Settings" hidden="true">
+				<Anchors>
+					<Anchor point="TOPLEFT"/>
+					<Anchor point="BOTTOMRIGHT"/>
+				</Anchors>
+				<Layers>
+					<Layer level="ARTWORK">
+						<FontString name="title_general_settings" inherits="GameTooltipHeaderText" text="General Settings">
+							<Color r="1.0" g="0.82" b="0"/>
+							<Anchors>
+								<Anchor point="TOPLEFT">
+									<Offset>
+										<AbsDimension x="35" y="-30"/>
+									</Offset>
+								</Anchor>
+							</Anchors>
+						</FontString>
+					</Layer>
+				</Layers>
+				<Frames>
+
+					<CheckButton name="BRP_CheckEnabled" inherits="OptionsCheckButtonTemplate">
+						<Anchors>
+							<Anchor point="TOPLEFT">
+								<Offset>
+									<AbsDimension x="39" y="-70" />
+								</Offset>
+							</Anchor>
+						</Anchors>
+						<Scripts>
+							<OnClick>
+								BRP_ToggleActive();
+							</OnClick>
+						</Scripts>
+					</CheckButton>
+					
+					<CheckButton name="BRP_IconEnabled" inherits="OptionsCheckButtonTemplate" checked="true">
+						<Anchors>
+							<Anchor point="LEFT" relativeTo="BRP_CheckEnabled" relativePoint="RIGHT">
+								<Offset>
+									<AbsDimension x="130" y="0" />
+								</Offset>
+							</Anchor>
+						</Anchors>
+						<Scripts>
+							<OnClick>
+								BrabbelRP:toggleIcon();
+							</OnClick>
+							<OnEnter>
+								GameTooltip_AddNewbieTip(TT_ICONSW_HELP_TITLE, 1.0, 1.0, 1.0, TT_ICONSW_HELP_TEXT, 1);
+							</OnEnter>
+							<OnLeave>
+								GameTooltip:Hide();
+							</OnLeave>
+						</Scripts>
+					</CheckButton>
+					
+					<CheckButton name="BRP_StealthProtect" inherits="OptionsCheckButtonTemplate">
+						<Anchors>
+							<Anchor point="LEFT" relativeTo="BRP_IconEnabled" relativePoint="RIGHT">
+								<Offset>
+									<AbsDimension x="140" y="0" />
+								</Offset>
+							</Anchor>
+						</Anchors>
+						<Scripts>
+							<OnClick>
+								BRP_ToggleStealthProtection();
+							</OnClick>
+							<OnEnter>
+								GameTooltip_AddNewbieTip(TT_STEALTHP_HELP_TITLE, 1.0, 1.0, 1.0, TT_STEALTHP_HELP_TEXT, 1);
+							</OnEnter>
+							<OnLeave>
+								GameTooltip:Hide();
+							</OnLeave>
+						</Scripts>
+					</CheckButton>
+					
+					<CheckButton name="BRP_DebugEnabled" inherits="OptionsCheckButtonTemplate">
+						<Anchors>
+							<Anchor point="LEFT" relativeTo="BRP_StealthProtect" relativePoint="RIGHT">
+								<Offset>
+									<AbsDimension x="180" y="0" />
+								</Offset>
+							</Anchor>
+						</Anchors>
+						<Scripts>
+							<OnClick>
+								BRP_ToggleDebugActive();
+							</OnClick>
+							<OnEnter>
+								GameTooltip_AddNewbieTip(TT_DEBUG_HELP_TITLE, 1.0, 1.0, 1.0, TT_DEBUG_HELP_TEXT, 1);
+							</OnEnter>
+							<OnLeave>
+								GameTooltip:Hide();
+							</OnLeave>
+						</Scripts>
+					</CheckButton>
+					
+					
+
+
+					<Frame name="repPreventionFrame">
+						<Anchors>
+							<Anchor point="TOPLEFT">
+								<Offset>
+									<AbsDimension x="40" y="-130"/>
+								</Offset>
+							</Anchor>
+						</Anchors>
+						<Size>
+							<AbsDimension x="670" y="75" />
+						</Size>
+						<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\Tooltips\UI-Tooltip-Border" tile="true">
+							<BackgroundInsets>
+								<AbsInset left="4" right="4" top="4" bottom="4" />
+							</BackgroundInsets>
+							<TileSize>
+								<AbsValue val="16" />
+							</TileSize>
+							<EdgeSize>
+								<AbsValue val="16" />
+							</EdgeSize>
+						</Backdrop>
+						<Layers>
+							<Layer level="ARTWORK">
+								<FontString name="repPreventionFrame_note" inherits="GameFontNormal" text="..." justifyV="TOP" justifyH="LEFT" >
+									<Anchors>
+										<Anchor point="RIGHT" relativeTo="$parent">
+											<Offset>
+												<AbsDimension x="-10" y="-10"/>
+											</Offset>
+										</Anchor>
+									</Anchors>
+									<Size>
+										<AbsDimension x="530" y="40" />
+									</Size>
+									<Color r="1" g="1" b="1" a="1" />  <!-- White Color -->
+								</FontString>
+							</Layer>
+						</Layers>
+						<Frames>
+							<Frame name="$parent_Title" inherits="BRPTitleFrame">
+								<Anchors>
+									<Anchor point="TOPLEFT">
+										<Offset>
+											<AbsDimension x="10" y="8"/>
+										</Offset>
+									</Anchor>
+								</Anchors>
+								<Size>
+									<AbsDimension x="150" y="25" />
+								</Size>
+								<Scripts>
+									<OnLoad>
+										--getglobal(this:GetName().."_Text"):SetText("Repeating prevention");
+									</OnLoad>
+								</Scripts>
+							</Frame>
+							<EditBox name="$parent_InputBox" inherits="InputBoxTemplate" id="15" autoFocus="false">
+								<Size>
+									<AbsDimension x="85" y="25"/>
+								</Size>
+								<Anchors>
+									<Anchor point="LEFT">
+											<Offset>
+												<AbsDimension x="20" y="0"/>
+											</Offset>
+									</Anchor>
+								</Anchors>
+								<Scripts>
+									<OnChar>
+										BRP_ValueChar(arg1);
+									</OnChar>
+									<OnTextChanged>
+										BRP_ValueChanged();
+									</OnTextChanged>
+									<OnEnterPressed>
+										this:ClearFocus();
+									</OnEnterPressed>
+								</Scripts>
+								<Layers>
+									<Layer level="ARTWORK">
+										<Texture name="$parent_red" file="Interface\Buttons\UI-Panel-Button-Up">
+											<Size>
+												<AbsDimension x="150" y="30" />
+											</Size>
+											<Anchors>
+												<Anchor point="TOPLEFT">
+													<Offset>
+														<AbsDimension x="-6" y="-3"/>
+													</Offset>
+												</Anchor>
+											</Anchors>
+										</Texture>
+									</Layer>
+								</Layers>
+							</EditBox>
+						</Frames>
+					</Frame>
+
+					<Frame name="defaultTimerFrame">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="repPreventionFrame" relativePoint="BOTTOMLEFT">
+								<Offset>
+									<AbsDimension x="0" y="-10"/>
+								</Offset>
+							</Anchor>
+						</Anchors>
+						<Size>
+							<AbsDimension x="670" y="75" />
+						</Size>
+						<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\Tooltips\UI-Tooltip-Border" tile="true">
+							<BackgroundInsets>
+								<AbsInset left="4" right="4" top="4" bottom="4" />
+							</BackgroundInsets>
+							<TileSize>
+								<AbsValue val="16" />
+							</TileSize>
+							<EdgeSize>
+								<AbsValue val="16" />
+							</EdgeSize>
+						</Backdrop>
+						<Layers>
+							<Layer level="ARTWORK">
+            	    
+								<FontString name="timerFrame_note" inherits="GameFontNormal" text="..." justifyV="TOP" justifyH="LEFT" >
+									<Anchors>
+										<Anchor point="RIGHT" relativeTo="$parent">
+											<Offset>
+												<AbsDimension x="-10" y="-10"/>
+											</Offset>
+										</Anchor>
+									</Anchors>
+									<Size>
+										<AbsDimension x="530" y="40" />
+									</Size>
+									<Color r="1" g="1" b="1" a="1" />  <!-- White Color -->
+								</FontString>
+							</Layer>
+						</Layers>
+						<Frames>
+							<Frame name="$parent_Title" inherits="BRPTitleFrame">
+								<Anchors>
+									<Anchor point="TOPLEFT">
+										<Offset>
+											<AbsDimension x="10" y="8"/>
+										</Offset>
+									</Anchor>
+								</Anchors>
+								<Size>
+									<AbsDimension x="150" y="25" />
+								</Size>
+								<Scripts>
+									<OnLoad>
+										--getglobal(this:GetName().."_Text"):SetText("Default timer");
+									</OnLoad>
+								</Scripts>
+							</Frame>
+							<EditBox name="$parent_InputBox" inherits="InputBoxTemplate" id="15" autoFocus="false">
+								<Size>
+									<AbsDimension x="85" y="25"/>
+								</Size>
+								<Anchors>
+									<Anchor point="LEFT">
+										<Offset>
+											<AbsDimension x="20" y="0"/>
+										</Offset>
+									</Anchor>
+								</Anchors>
+								<Scripts>
+									<OnChar>
+										BRP_ValueChar(arg1);
+									</OnChar>
+									<OnTextChanged>
+										BRP_ValueChanged();
+									</OnTextChanged>
+									<OnEnterPressed>
+										this:ClearFocus();
+									</OnEnterPressed>
+								</Scripts>
+								<Layers>
+									<Layer level="ARTWORK">
+										<Texture name="$parent_red" file="Interface\Buttons\UI-Panel-Button-Up">
+											<Size>
+												<AbsDimension x="150" y="30" />
+											</Size>
+											<Anchors>
+												<Anchor point="TOPLEFT">
+													<Offset>
+														<AbsDimension x="-6" y="-3"/>
+													</Offset>
+												</Anchor>
+											</Anchors>
+										</Texture>
+									</Layer>
+								</Layers>
+							</EditBox>
+						</Frames>
+					</Frame>
+
+					<Frame name="defaultChanceFrame">
+						<Anchors>
+							<Anchor point="TOPLEFT" relativeTo="defaultTimerFrame" relativePoint="BOTTOMLEFT">
+								<Offset>
+									<AbsDimension x="0" y="-10"/>
+								</Offset>
+							</Anchor>
+						</Anchors>
+						<Size>
+							<AbsDimension x="670" y="75" />
+						</Size>
+						<Backdrop bgFile="Interface\DialogFrame\UI-DialogBox-Background" edgeFile="Interface\Tooltips\UI-Tooltip-Border" tile="true">
+							<BackgroundInsets>
+								<AbsInset left="4" right="4" top="4" bottom="4" />
+							</BackgroundInsets>
+							<TileSize>
+								<AbsValue val="16" />
+							</TileSize>
+							<EdgeSize>
+								<AbsValue val="16" />
+							</EdgeSize>
+						</Backdrop>
+						<Layers>
+							<Layer level="ARTWORK">
+								<FontString name="chanceFrame_note" inherits="GameFontNormal" text="..." justifyV="TOP" justifyH="LEFT" >
+									<Anchors>
+										<Anchor point="RIGHT" relativeTo="$parent">
+											<Offset>
+												<AbsDimension x="-10" y="-10"/>
+											</Offset>
+										</Anchor>
+									</Anchors>
+									<Size>
+										<AbsDimension x="530" y="40" />
+									</Size>
+									<Color r="1" g="1" b="1" a="1" />  <!-- White Color -->
+								</FontString>
+							</Layer>
+						</Layers>
+						<Frames>
+							<Frame name="$parent_Title" inherits="BRPTitleFrame">
+								<Anchors>
+									<Anchor point="TOPLEFT">
+										<Offset>
+											<AbsDimension x="10" y="8"/>
+										</Offset>
+									</Anchor>
+								</Anchors>
+								<Size>
+									<AbsDimension x="150" y="25" />
+								</Size>
+								<Scripts>
+									<OnLoad>
+										--getglobal(this:GetName().."_Text"):SetText("Default chance");
+									</OnLoad>
+								</Scripts>
+							</Frame>
+							<EditBox name="$parent_InputBox" inherits="InputBoxTemplate" id="15" autoFocus="false">
+								<Size>
+									<AbsDimension x="85" y="25"/>
+								</Size>
+								<Anchors>
+									<Anchor point="LEFT">
+										<Offset>
+											<AbsDimension x="20" y="0"/>
+										</Offset>
+									</Anchor>
+								</Anchors>
+								<Scripts>
+									<OnChar>
+										BRP_ValueChar(arg1);
+									</OnChar>
+									<OnTextChanged>
+										BRP_ValueChanged();
+									</OnTextChanged>
+									<OnEnterPressed>
+										this:ClearFocus();
+									</OnEnterPressed>
+								</Scripts>
+								<Layers>
+									<Layer level="ARTWORK">
+										<Texture name="$parent_red" file="Interface\Buttons\UI-Panel-Button-Up">
+											<Size>
+												<AbsDimension x="150" y="30" />
+											</Size>
+											<Anchors>
+												<Anchor point="TOPLEFT">
+													<Offset>
+														<AbsDimension x="-6" y="-3"/>
+													</Offset>
+												</Anchor>
+											</Anchors>
+										</Texture>
+									</Layer>
+								</Layers>
+							</EditBox>
+						</Frames>
+					</Frame>
+
+				</Frames> 
+			</Frame>
+			
+			<Button name="$parentTab2" inherits="TabButtonTemplate" id="2" text="General Settings">
+				<Anchors>
+					<Anchor point="TOPRIGHT" relativePoint="TOPRIGHT">
+						<Offset>
+							<AbsDimension x="-30" y="-25"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						Try2Switch2Tab2();
+					</OnClick>
+				</Scripts>
+			</Button>
+			
+			<Button name="$parentTab1" inherits="TabButtonTemplate" id="1" text="Categories">
+				<Anchors>
+					<Anchor point="RIGHT" relativeTo="$parentTab2" relativePoint="LEFT" />
+				</Anchors>
+				<Scripts>
+					<OnClick>
+						Try2Switch2Tab1();
+					</OnClick>
+				</Scripts>
+			</Button>
+			
+			<Button name="$parent_Help" inherits="UIPanelButtonTemplate" text="Help">
+				<Size>
+					<AbsDimension x="50" y="20" />
+				</Size>
+				<Anchors>
+					<Anchor point="BOTTOMLEFT" relativePoint="BOTTOMLEFT">
+						<Offset>
+							<AbsDimension x="17" y="13"/>
+						</Offset>
+					</Anchor>
+				</Anchors>
+				<Scripts>
+					<OnEnter>
+						GameTooltip_AddNewbieTip(TT_FIRST_HELP_TITLE, 1.0, 1.0, 1.0, TT_FIRST_HELP_TEXT, 1);
+					</OnEnter>
+					<OnLeave>
+						GameTooltip:Hide();
+					</OnLeave>
+					<OnClick>
+						GameTooltip:Hide();
+						BrabbelRP:showHelp();
+					</OnClick>
+				</Scripts>
+			</Button>
+			
+			<Button name="$parent_Defaults" inherits="UIPanelButtonTemplate" text="Load Defaults" hidden="true">
+				<Size>
+					<AbsDimension x="110" y="20" />
+				</Size>
+				<Anchors>
+					<Anchor point="LEFT" relativeTo="$parent_Help" relativePoint="RIGHT" />
+				</Anchors>
+				<Scripts>
+					<OnEnter>
+						GameTooltip_AddNewbieTip(TT_LOAD_DEFAULTS_TITLE, 1.0, 1.0, 1.0, TT_LOAD_DEFAULTS_SHORT, 1);
+					</OnEnter>
+					<OnLeave>
+						GameTooltip:Hide();
+					</OnLeave>
+					<OnClick>
+						GameTooltip:Hide();
+						BrabbelRP:showLoadDefaults();
+					</OnClick>
+				</Scripts>
+			</Button>
+
+			<Frame name="BRPInfo">
+				<Size>
+					<AbsDimension x="710" y="40"/>
+				</Size>
+				<Anchors>
+					<Anchor point="BOTTOM">
+							<Offset>
+								<AbsDimension x="-5" y="3"/>
+							</Offset>
+						</Anchor>
+				</Anchors>
+				<Layers>
+					<Layer level="ARTWORK">
+						<FontString name="$parent_Text" inherits="GameFontNormal" text="BrabbelRP" justifyH="RIGHT" />
+					</Layer>
+				</Layers>
+			</Frame>
+
+		</Frames>
+		<Scripts>
+			<OnLoad>
+				PanelTemplates_SetNumTabs(BrabbelRPForm, 2);
+				PanelTemplates_SetTab(BrabbelRPForm, 1);
+			</OnLoad>
+			<OnShow>
+				Try2Switch2Tab1();
+				BRP_ShowWindow();
+				PlaySound("igQuestLogOpen");
+				ResetGui(true);
+			</OnShow>
+			<OnHide>
+				PlaySound("igQuestLogClose");
+			</OnHide>
+			<OnMouseDown>HideDropDownMenu(1); this:StartMoving();</OnMouseDown>
+			<OnMouseUp>this:StopMovingOrSizing();</OnMouseUp>
+			<OnDragStop>this:StopMovingOrSizing();</OnDragStop>
+			<OnKeyDown>
+				if ( arg1 == "ESCAPE" ) then
+					BrabbelRP:ToggleWindowOpen();
+				elseif ( arg1 == "7" and IsShiftKeyDown()) then
+					ChatFrame_OpenChat("/");
+				elseif ( arg1 == "ENTER" ) then
+					ChatFrame_OpenChat("");
+				elseif ( arg1 == "F2" ) then
+					TryToRenameCat();
+				end
+			</OnKeyDown>
+		</Scripts>
+	</Frame>
+
+</Ui>

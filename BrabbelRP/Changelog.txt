@@ -1,0 +1,54 @@
+Known Issues (which need some more time for testing/debugging):
+============
+
+- some users reported that doubleclick does not work: use 'CTRL+leftclick' instead
+
+
+CHANGELOG
+=========
+
+Version 1.3.1.0 - 27.09.2007
+
+- Patch-2.2-ready
+- added modes for being tipsy/drunken
+- Bugfix: mode "friendly player dies" no longer fires for summoned guardians and totems that gets destroyed
+- some more german default entries (is there anyone who would like to share his english entries so i can add them too?!)
+
+Version 1.3.0.0 - 27.07.2007
+
+- all 'doubleclícks' can now be simulated by 'CTRL+leftclick'
+- ESC now closes 'lines view' first if visible
+- ENTER while BrabbelRP window opened now opens chat input
+- added some more pet modes for happiness
+- you can now use the command '/pet ...' if the addon PetEmote is installed
+- you can now use the command '/wqs ...' if the addon WoWQuote is installed
+- added fishing modes
+- added "Killed hostile" mode
+- Bugfix: mode "I was hit" should no longer trigger when a party member gets hit
+
+
+Version 1.2.0.0 - 26.07.2007
+
+- OOM/OOH now only fires when passing their limit, not everytime when mana changes its amount below these limits
+- OOM now does not fire anymore when in baerform
+- added important flag for categories (see tooltip)
+- the minimap icon now has a menu for right click to disable/enable brabbelrp and hide the icon
+- you should now be able to use all known emotes
+- you can now toggle visibility of the icon and the window with '/brp toggleWindow' and '/brp toggleIcon'
+- new window design
+
+
+Version 1.1.0.1 - 20.07.2007
+
+- fixed localization problems, when using other ace2 addons
+  (which do not use local L)
+
+
+Version 1.1.0.0 - 18.07.2007
+
+- added mount events
+- added oom and ooh events
+- ESC now closes mode-menu if opened
+- added some garbage collection
+- mode menu is now ordered alphabetically
+- dependencies in toc file corrected, so ace can now used as standalone addons/libs too
